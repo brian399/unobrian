@@ -1,0 +1,129 @@
+using System;
+using System.Collections;
+
+namespace Persona
+{
+	class MainClass
+	{
+
+		public string codigo, nombre, telefono, correo, domicilio;
+		public int edad;
+
+		public void imprimeDatos(MainClass d){
+			Console.WriteLine (" el codigo  es: " + 
+			                   d.codigo +
+			                   "nombre: " + d.nombre +
+			                   " correo: " +
+			                   d.correo +
+			                   "edad: " + d.edad +
+			                   " telefono: " + 
+			                   d.telefono +
+			                   " direccion es: " + 
+			                   d.domicilio );                            
+			Console.WriteLine ("");
+		}
+
+
+		public static void Main (string[] args)
+		{
+			Hashtable Personas = new Hashtable();
+			for (int i = 0; i < 4; i++)
+			{
+				MainClass persona = new MainClass();
+		
+				Console.WriteLine("Ingresa Codigo");
+				persona.codigo = Console.ReadLine();
+				Console.WriteLine("Ingresa Nombre");
+				persona.nombre = Console.ReadLine();
+				Console.WriteLine("Ingresa Correo");
+				persona.correo = Console.ReadLine();
+				Console.WriteLine("Ingresa Edad");
+				persona.edad = int.Parse (Console.ReadLine());
+				Console.WriteLine("Ingresa Domicilio");
+				persona.domicilio = Console.ReadLine();
+				Console.WriteLine("Ingresa Telefono");
+				persona.telefono = Console.ReadLine();
+				try
+				{
+					Personas.Add(persona.codigo, persona);
+					persona.imprimeDatos(persona);
+				}
+				catch
+				{
+					Console.WriteLine("El nombre ya existe >" + persona.codigo + "< ya existe");
+				}
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				Console.Clear();
+				Console.WriteLine("INGRESA UN CODIGO PARA BUSCAR\n");
+				string x = Console.ReadLine();
+				try
+				{
+					if (Personas.ContainsKey(x))
+					{
+						MainClass a = (MainClass) Personas[x];
+						a.imprimeDatos(a);
+						Personas.Remove(x);
+						Console.WriteLine("Ingresa Nombre");
+						a.nombre = Console.ReadLine();
+						Console.WriteLine("Ingresa Telefono");
+						a.telefono = Console.ReadLine();
+						Console.WriteLine("Ingresa Email");
+						a.correo = Console.ReadLine();
+						Console.WriteLine("Ingresa Domicilio");
+						a.domicilio = Console.ReadLine();
+						Personas.Add(a.codigo, a);
+					}
+
+
+				}
+				catch
+				{
+					Console.WriteLine("El codigo >" + x + " no existe");
+				}
+			}
+
+
+			for (int i = 0; i < 2; i++)
+			{
+				Console.Clear();
+				Console.WriteLine("codigo para borarlo\n");
+				string x = Console.ReadLine();
+				try
+				{
+					if (Personas.ContainsKey(x))
+					{
+						Console.WriteLine("Seguro de borar a la persona con codigo " + x + "?\n1.- SI \n2.- NO");
+						int r = int.Parse(Console.ReadLine());
+						if (r == 1)
+							Personas.Remove(x);
+						else
+						{
+							Console.Clear();
+						}    
+					}
+
+
+				}
+				catch
+				{
+					Console.WriteLine("El codigo >" + x + " no existe");
+				}
+			}
+
+
+			Console.Clear();
+			Console.WriteLine("PERSONAS RESTANTES");
+			ICollection pers = Personas.Values;
+			Console.WriteLine();
+			foreach( object objeto in pers )
+			{
+				MainClass persona = (MainClass) objeto;
+				persona.imprimeDatos(persona);
+			}
+			Console.ReadKey(true);
+		}
+	}
+}
